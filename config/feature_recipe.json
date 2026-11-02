@@ -1,0 +1,357 @@
+{
+  "target_col": "exam_score",
+  "task": "regression",
+  "model_family": "TABULAR_ML",
+  "numeric_cols": [
+    "age",
+    "study_hours",
+    "class_attendance",
+    "sleep_hours",
+    "sleep_quality__ord",
+    "facility_rating__ord"
+  ],
+  "categorical_cols": [
+    "gender",
+    "course",
+    "internet_access",
+    "study_method",
+    "exam_difficulty"
+  ],
+  "feature_names": [
+    "age",
+    "study_hours",
+    "class_attendance",
+    "sleep_hours",
+    "sleep_quality__ord",
+    "facility_rating__ord",
+    "gender=female",
+    "gender=male",
+    "gender=other",
+    "course=b.com",
+    "course=b.sc",
+    "course=b.tech",
+    "course=ba",
+    "course=bba",
+    "course=bca",
+    "course=diploma",
+    "internet_access=no",
+    "internet_access=yes",
+    "study_method=coaching",
+    "study_method=group study",
+    "study_method=mixed",
+    "study_method=online videos",
+    "study_method=self-study",
+    "exam_difficulty=easy",
+    "exam_difficulty=hard",
+    "exam_difficulty=moderate"
+  ],
+  "class_names": null,
+  "impute_medians": [
+    20.0,
+    4.050000190734863,
+    70.0999984741211,
+    7.0,
+    3.0,
+    2.0
+  ],
+  "outlier_bounds": [
+    {
+      "lower": 6.0,
+      "upper": 34.0
+    },
+    {
+      "lower": -9.99000072479248,
+      "upper": 18.010000944137573
+    },
+    {
+      "lower": -33.50000762939453,
+      "upper": 173.70000839233398
+    },
+    {
+      "lower": -3.5,
+      "upper": 17.5
+    },
+    {
+      "lower": -8.0,
+      "upper": 13.0
+    },
+    {
+      "lower": -5.0,
+      "upper": 9.0
+    }
+  ],
+  "scale_recipe": {
+    "method": "standard",
+    "mean_": [
+      20.468357142857144,
+      4.017005713522966,
+      70.11368573733739,
+      6.999135711090905,
+      2.6680714285714284,
+      1.9955
+    ],
+    "scale_": [
+      2.277937384914632,
+      2.305696402263083,
+      17.214705437823934,
+      1.7321901777174444,
+      1.2475269229436392,
+      0.8138408277156661
+    ]
+  },
+  "encode_recipe": {
+    "categorical_cols": [
+      "gender",
+      "course",
+      "internet_access",
+      "study_method",
+      "exam_difficulty"
+    ],
+    "encoders": {
+      "onehot_categories": [
+        [
+          "female",
+          "male",
+          "other"
+        ],
+        [
+          "b.com",
+          "b.sc",
+          "b.tech",
+          "ba",
+          "bba",
+          "bca",
+          "diploma"
+        ],
+        [
+          "no",
+          "yes"
+        ],
+        [
+          "coaching",
+          "group study",
+          "mixed",
+          "online videos",
+          "self-study"
+        ],
+        [
+          "easy",
+          "hard",
+          "moderate"
+        ]
+      ],
+      "onehot_columns": [
+        "gender",
+        "course",
+        "internet_access",
+        "study_method",
+        "exam_difficulty"
+      ]
+    }
+  },
+  "custom_formulas": null,
+  "smote_applied": false,
+  "applied_pipeline_steps": [
+    {
+      "step": "FeatureExpansion",
+      "params": {
+        "derived_columns": [
+          "sleep_quality__ord",
+          "facility_rating__ord"
+        ],
+        "onehot_columns": [
+          "gender",
+          "course",
+          "internet_access",
+          "study_method",
+          "exam_difficulty"
+        ]
+      }
+    },
+    {
+      "step": "Imputation",
+      "params": {
+        "method": "median",
+        "columns": [
+          "age",
+          "study_hours",
+          "class_attendance",
+          "sleep_hours",
+          "sleep_quality__ord",
+          "facility_rating__ord"
+        ],
+        "medians": [
+          20.0,
+          4.050000190734863,
+          70.0999984741211,
+          7.0,
+          3.0,
+          2.0
+        ]
+      }
+    },
+    {
+      "step": "WinsorizeCaps",
+      "params": {
+        "factor": 3.0,
+        "bounds": [
+          {
+            "lower": 6.0,
+            "upper": 34.0
+          },
+          {
+            "lower": -9.99000072479248,
+            "upper": 18.010000944137573
+          },
+          {
+            "lower": -33.50000762939453,
+            "upper": 173.70000839233398
+          },
+          {
+            "lower": -3.5,
+            "upper": 17.5
+          },
+          {
+            "lower": -8.0,
+            "upper": 13.0
+          },
+          {
+            "lower": -5.0,
+            "upper": 9.0
+          }
+        ]
+      }
+    },
+    {
+      "step": "Scaling",
+      "params": {
+        "method": "standard"
+      }
+    },
+    {
+      "step": "OneHotCategorical",
+      "params": {
+        "columns": [
+          "gender",
+          "course",
+          "internet_access",
+          "study_method",
+          "exam_difficulty"
+        ]
+      }
+    }
+  ],
+  "derived_features": [
+    {
+      "type": "ordinal",
+      "source": "sleep_quality",
+      "out": "sleep_quality__ord",
+      "map": {
+        "average": 3.0,
+        "good": 4.0,
+        "poor": 1.0
+      }
+    },
+    {
+      "type": "ordinal",
+      "source": "facility_rating",
+      "out": "facility_rating__ord",
+      "map": {
+        "high": 3.0,
+        "low": 1.0,
+        "medium": 2.0
+      }
+    }
+  ],
+  "feature_expansion_report": {
+    "numeric": [
+      {
+        "col": "age",
+        "variance": 5.188999,
+        "skew": 0.017802,
+        "min": 17.0,
+        "n_unique": 8,
+        "abs_corr": 0.005715,
+        "log1p_candidate": false,
+        "high_impact": false
+      },
+      {
+        "col": "study_hours",
+        "variance": 5.316236,
+        "skew": -0.016696,
+        "min": 0.08,
+        "n_unique": 784,
+        "abs_corr": 0.721071,
+        "log1p_candidate": false,
+        "high_impact": true
+      },
+      {
+        "col": "class_attendance",
+        "variance": 296.346083,
+        "skew": -0.01313,
+        "min": 40.599998,
+        "n_unique": 589,
+        "abs_corr": 0.302473,
+        "log1p_candidate": false,
+        "high_impact": true
+      },
+      {
+        "col": "sleep_hours",
+        "variance": 3.000483,
+        "skew": 0.012653,
+        "min": 4.1,
+        "n_unique": 59,
+        "abs_corr": 0.126124,
+        "log1p_candidate": false,
+        "high_impact": false
+      }
+    ],
+    "log1p_columns": [],
+    "high_impact_numeric": [
+      "study_hours",
+      "class_attendance"
+    ],
+    "ordinal_columns": [
+      {
+        "col": "sleep_quality",
+        "vocabulary": "quality_grade",
+        "n_levels": 3
+      },
+      {
+        "col": "facility_rating",
+        "vocabulary": "low_to_high",
+        "n_levels": 3
+      }
+    ],
+    "target_encoded_columns": [],
+    "frequency_encoded_columns": [],
+    "onehot_columns": [
+      "gender",
+      "course",
+      "internet_access",
+      "study_method",
+      "exam_difficulty"
+    ],
+    "skipped_columns": []
+  },
+  "robust_objective": {
+    "enabled": true,
+    "task": "regression",
+    "objective": "huber",
+    "huber_delta": 0.42733417,
+    "robust_sigma_mad": 0.31772057
+  },
+  "ingestion_mode_context": "json_array",
+  "log_transform_target": true,
+  "weighted_least_squares": {
+    "applied": true,
+    "formula": "1/(y_original+epsilon), rescaled to mean 1",
+    "epsilon": 1e-05,
+    "raw_max_min_ratio": 5.102298802380887,
+    "max_ratio": null,
+    "cap_applied": false,
+    "w_cap_raw": null,
+    "w_mean": 0.017964599921088727,
+    "effective_sample_size_frac": 0.8585457014937196
+  }
+}
